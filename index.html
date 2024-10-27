@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown bis zum Release</title>
+    <style>
+        body {
+            background-color: black; /* Hintergrundfarbe */
+            display: flex;
+            flex-direction: column; /* Vertikale Anordnung */
+            align-items: center; /* Zentrierung des Inhalts */
+            justify-content: center; /* Vertikale Zentrierung */
+            height: 100vh; /* Vollbildhöhe */
+            margin: 0;
+            font-family: Arial, sans-serif; /* Schriftart */
+            color: white; /* Textfarbe */
+        }
+
+        .animated-title {
+            font-size: 50px; /* Schriftgröße für den Titel */
+            font-weight: bold; /* Fettdruck */
+            background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet); /* Farbverlauf */
+            background-size: 300%; /* Für sanfteren Farbverlauf */
+            color: transparent; /* Textfarbe transparent machen */
+            -webkit-background-clip: text; /* Hintergrundfarbe nur auf Text anwenden */
+            animation: colorChange 10s infinite linear; /* Animation */
+            margin-bottom: 20px; /* Abstand nach unten */
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-position: 0%; /* Startposition */
+            }
+            100% {
+                background-position: 100%; /* Endposition */
+            }
+        }
+
+        .countdown {
+            font-size: 50px; /* Schriftgröße */
+            display: flex; /* Flex-Anordnung für den Countdown */
+            gap: 20px; /* Abstand zwischen Countdown-Elementen */
+        }
+
+        .countdown-item {
+            text-align: center; /* Zentrierte Ausrichtung */
+            background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet); /* Farbverlauf für den Countdown */
+            background-size: 300%; /* Für sanfteren Farbverlauf */
+            -webkit-background-clip: text; /* Hintergrundfarbe nur auf Text anwenden */
+            color: transparent; /* Textfarbe transparent machen */
+            animation: colorChange 10s infinite linear; /* Animation für Farbwechsel */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-title">WEBSITE RELEASE IN...</div> <!-- Animierte Überschrift -->
+
+    <div class="countdown" id="countdown">
+        <div class="countdown-item" id="days"></div>
+        <div class="countdown-item" id="hours"></div>
+        <div class="countdown-item" id="minutes"></div>
+        <div class="countdown-item" id="seconds"></div>
+    </div>
+
+    <script>
+        // Ziel-Datum für den Countdown
+        const releaseDate = new Date("2024-10-31T00:00:00").getTime();
+
+        // Countdown-Funktion
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = releaseDate - now;
+
+            // Berechnung von Tagen, Stunden, Minuten und Sekunden
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Countdown-Elemente aktualisieren
+            document.getElementById("days").innerHTML = `${days} D`;
+            document.getElementById("hours").innerHTML = `${hours} H`;
+            document.getElementById("minutes").innerHTML = `${minutes} M`;
+            document.getElementById("seconds").innerHTML = `${seconds} S`;
+
+            // Wenn der Countdown abgelaufen ist, zeige eine Nachricht an
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "Die Website ist jetzt online!";
+            }
+        }
+
+        // Countdown-Intervall
+        const countdownInterval = setInterval(updateCountdown, 1000); // Update jede Sekunde
+    </script>
+</body>
+</html>
